@@ -1,0 +1,26 @@
+[
+  {
+    "_id": "624d3a87d7ce2b3fe643df21",
+    "eventID": "5129218441",
+    "awayOdd": 1.67,
+    "awayTeam": "Calissa Dellabarca",
+    "country": "Torneio de Exibição",
+    "createdDate": "2022-04-06T07:00:21.115Z",
+    "eventNodeTypeId": 10,
+    "homeOdd": 1.67,
+    "homeTeam": "Ashton Bowers",
+    "lastUpdate": "2022-04-07T19:35:45.953Z",
+    "leagues": "UTR Pro Tennis Series Lawrenceville - Feminino",
+    "localizedNames": "Ashton Bowers - Calissa Dellabarca",
+    "markets": {
+      "1/2": {
+        "Ashton Bowers": 1.67,
+        "Calissa Dellabarca": 1.67
+      }
+    },
+    "parentNodeId": "4426158192",
+    "sport": "Ténis",
+    "startDate": "2022-04-07T19:45:00.000Z",
+    "url": "https://apostas.placard.pt/sports/soccer/events/5129218441"
+  }
+]
