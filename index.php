@@ -6,7 +6,7 @@ main();
 
 function main() {
 	$pdo = connect();
-	$url = "http://localhost/php/dados.json";
+	$url = "http://localhost/odds/dados.json";
 	$field_type = "Betano";
 	$curl = curl_init();
 
