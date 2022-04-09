@@ -1,0 +1,48 @@
+[
+  {
+    "id": "25195204",
+    "name": "SSC Napoli (Nasa) Esports - Inter (Rik) Esports",
+    "date": "2022-04-09T13:44:00Z",
+    "Url": "https://br.betano.com/match-odds/SSC-Napoli-Nasa-Esports-vs-Inter-Rik-Esports/25195204",
+    "zerorake": false,
+    "teams": [
+      {
+        "id": "2000601",
+        "name": "SSC Napoli (Nasa) Esports"
+      },
+      {
+        "id": "2006051",
+        "name": "Inter (Rik) Esports"
+      }
+    ],
+    "leaguename": "Italy Cyber Stars League - 2x5 minutos de jogo",
+    "leagueid": "194577",
+    "regionname": "Esports",
+    "regionid": "189438",
+    "market": [
+      {
+        "id": "1159270193",
+        "type": "MRES",
+        "name": "Resultado Final",
+        "selections": [
+          {
+            "id": "2535515937",
+            "name": "1",
+            "price": 4.6
+          },
+          {
+            "id": "2535515938",
+            "name": "X",
+            "price": 5.5
+          },
+          {
+            "id": "2535515939",
+            "name": "2",
+            "price": 1.45
+          }
+        ]
+      }
+    ],
+    "sport": "FOOT"
+  }
+]

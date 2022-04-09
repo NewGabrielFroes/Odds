@@ -6,7 +6,7 @@ main();
 
 function main() {
 	$pdo = connect();
-	$url = "http://localhost/odds/dados.json";
+	$url = "https://br.betano.com/adserve?type=OddsComparisonFeed&lang=pt&sport=FOOT";
 	$field_type = "Betano";
 	$curl = curl_init();
 
@@ -33,17 +33,11 @@ function main() {
 
 		$id_home_team_map = get_id_team($pdo, $field_type, $identifier_home_team);
 		$id_away_team_map = get_id_team($pdo, $field_type, $identifier_away_team);
+		$fixtures_id = have_match($pdo, $id_home_team_map, $id_away_team_map, $match_date);
 		$identifiers = array();
+		$odds = array();
 
-		if (!$id_home_team_map or !$id_away_team_map) {
-			continue;
-		}
-		else {
-			$id_home_team_map = $id_home_team_map["id"];
-			$id_away_team_map = $id_away_team_map["id"];
-		}
-		
-	    if (!have_match($pdo, $id_home_team_map, $id_away_team_map, $match_date)) {
+		if (!$id_home_team_map or !$id_away_team_map or !$fixtures_id) {
 			continue;
 		}
 		else {
@@ -52,44 +46,30 @@ function main() {
 				$count = 0;
 				foreach ($market->selections as $selection) {
 					$selection_name = $selection->name;
-					switch ($type) {
-						case "MRES":
-							$identifiers[] = $type . $selection_name;
-							break;
-						case "HCTG":
-							if ($count == 0) {
-								$identifiers[] = $type . str_replace("Mais de ", "OVER", $selection_name);
-							}
-							else {
-								$identifiers[] = $type . str_replace("Menos de ", "UNDER", $selection_name);
-							}
-							break;
-						case "BTSC":
-							if ($count == 0) {
-								$identifiers[] = $type . "YES";
-							}
-							else {
-								$identifiers[] = $type . "NO";
-							}
-							break;
-					}
+					$identifiers[] = $type . $selection_name;
+					$odds[] = $selection->price;
 					$count++;
 				}
 
 			}
-			foreach ($identifiers as $identifier) {
-				print_r("<pre>");
-				print_r($identifier." ");
-				print_r(get_markets_id($pdo, $identifier)["id"]);
-				print_r("</pre>");
+			foreach ($identifiers as $identifier => &$value) {
+				$value = str_replace("Mais de ", "OVER", $value);
+				$value = str_replace("Menos de ", "UNDER", $value);
+				$value = str_replace("Sim", "YES", $value);
+				$value = str_replace("Não", "NO", $value);
+				$fixture_marketsMarketsId = get_fixture_marketsMarketsId($pdo, $value);
+				populate_fixtures_markets($pdo, $fixtures_id, $fixture_marketsMarketsId);
+			}
+			$date = gmdate('Y-m-d H:i:s');
+			$fixtures_marketsIds = get_fixtures_marketsId($pdo, $fixtures_id);
+			for ($count = 0; $count < count($odds); $count++) {
+				populate_fixtures_markets_odds($pdo, $date, $odds[$count], $fixtures_marketsIds[$count]);	
 			}
 		}
 	}
 
 	curl_close($curl);
 }
-
-
 
 function get_id_team($pdo, $field_type, $identifier) {
 	$stmt = $pdo->prepare("SELECT id FROM teams_map 
@@ -99,6 +79,7 @@ function get_id_team($pdo, $field_type, $identifier) {
 	$stmt->bindParam(":identifier", $identifier);
 	$stmt->execute();
 	$id = $stmt->fetch(PDO::FETCH_ASSOC);
+	$id = !$id ? $id : $id["id"];
 	return $id;
 }
 
@@ -112,14 +93,48 @@ function have_match($pdo, $id_home_team, $id_away_team, $match_date) {
 	$stmt->bindParam(":match_date", $match_date);
 	$stmt->execute();
 	$id = $stmt->fetch(PDO::FETCH_ASSOC);
+	$id = !$id ? $id : $id["id"];
 	return $id;
 }
 
-function get_markets_id($pdo, $identifier) {
+function get_fixture_marketsMarketsId($pdo, $identifier) {
 	$stmt = $pdo->prepare("SELECT id FROM markets_map 
 						   WHERE identifier = :identifier");
 	$stmt->bindParam(":identifier", $identifier);
 	$stmt->execute();
 	$id = $stmt->fetch(PDO::FETCH_ASSOC);
-	return $id;
+	return $id["id"];
+}
+
+function populate_fixtures_markets($pdo, $fixtures_id, $markets_id) {
+	$date = date('Y-m-d H:i:s');
+	$stmt = $pdo->prepare("INSERT INTO fixtures_markets(fixtures_id, markets_id)
+						   VALUES (:fixtures_id, :markets_id)");
+	$stmt->bindParam(":fixtures_id", $fixtures_id);
+	$stmt->bindParam(":markets_id", $markets_id);
+	$stmt->execute();
+	return $stmt;
+}
+
+function get_fixtures_marketsId($pdo, $fixtures_id) {
+	$stmt = $pdo->prepare("SELECT id FROM fixtures_markets
+						   WHERE fixtures_id = :fixtures_id");
+	$stmt->bindParam(":fixtures_id", $fixtures_id);
+	$stmt->execute();
+	$arrayIds = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	$ids = array();
+	foreach ($arrayIds as $id) {
+		$ids[] = $id["id"];
+	}
+	return $ids;
+}
+
+function populate_fixtures_markets_odds($pdo, $date, $odd, $fixtures_markets_id) {
+	$stmt = $pdo->prepare("INSERT INTO fixtures_markets_odds(odd, date,fixtures_markets_id)
+						   VALUES (:odd,:date,:fixtures_markets_id)");
+	$stmt->bindParam(":odd", $odd);
+	$stmt->bindParam(":date", $date);
+	$stmt->bindParam(":fixtures_markets_id", $fixtures_markets_id);
+	$stmt->execute();
+	return $stmt;
 }
