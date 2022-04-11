@@ -52,23 +52,7 @@ function main() {
 				}
 
 			}
-			for ($i = 0; $i < count($identifiers); ++$i) {
-				$identifiers[$i] = str_replace("Mais de ", "OVER", $identifiers[$i]);
-				$identifiers[$i] = str_replace("Menos de ", "UNDER", $identifiers[$i]);
-				$identifiers[$i] = str_replace("Sim", "YES", $identifiers[$i]);
-				$identifiers[$i] = str_replace("Não", "NO", $identifiers[$i]);
-				$fixture_marketsMarketsId = get_fixture_marketsMarketsId($pdo, $identifiers[$i]);
-				$date = gmdate('Y-m-d H:i:s');
-				if (!is_market_in_table($pdo, $fixtures_id, $fixture_marketsMarketsId)) {
-					populate_fixtures_markets($pdo, $fixtures_id, $fixture_marketsMarketsId);
-					$fixtures_marketsIds = get_fixtures_marketsId($pdo, $fixtures_id); //RETIRAR
-					populate_fixtures_markets_odds($pdo, $odds[$i], $date, $fixtures_marketsIds[$i]);
-				}
-				else {
-					$fixtures_marketsIds = get_fixtures_marketsId($pdo, $fixtures_id);
-					update_fixtures_markets_odds($pdo, $odds[$i], $date, $fixtures_marketsIds[$i]);
-				}
-			}
+			populate($pdo, $field_type, $identifiers, $fixtures_id, $odds);
 		}
 	}
 
@@ -76,16 +60,36 @@ function main() {
 }
 
 function get_id_team($pdo, $field_type, $identifier) {
-	$stmt = $pdo->prepare("SELECT id FROM teams_map 
+	$stmt = $pdo->prepare("SELECT teams_id FROM teams_map 
 						   WHERE field_type = :field_type 
 						   AND identifier = :identifier");
 	$stmt->bindParam(":field_type", $field_type);
 	$stmt->bindParam(":identifier", $identifier);
 	$stmt->execute();
 	$id = $stmt->fetch(PDO::FETCH_ASSOC);
-	$id = !$id ? $id : $id["id"];
+	$id = !$id ? $id : $id["teams_id"];
 	return $id;
 }
+
+function populate($pdo, $field_type, $identifiers, $fixtures_id, $odds) {
+	$date = gmdate('Y-m-d H:i:s');
+	for ($i = 0; $i < count($identifiers); $i++) { 
+		
+		$fixture_markets_MarketsId = get_markets_maps_MarketsId($pdo, $identifiers[$i], $field_type);
+		$is_market_in_table = is_market_in_table($pdo, $fixtures_id, $fixture_markets_MarketsId);
+		$id = $is_market_in_table;
+		
+		
+		if (!$is_market_in_table) {
+			populate_fixtures_markets($pdo, $fixtures_id, $fixture_markets_MarketsId);
+			populate_fixtures_markets_odds($pdo, $odds[$i], $date, $pdo->lastInsertId());
+		}
+		else {
+			update_fixtures_markets_odds($pdo, $odds[$i], $date, $id);
+		}
+	}
+}
+
 
 function have_match($pdo, $id_home_team, $id_away_team, $match_date) {
 	$stmt = $pdo->prepare("SELECT id FROM fixtures 
@@ -101,13 +105,15 @@ function have_match($pdo, $id_home_team, $id_away_team, $match_date) {
 	return $id;
 }
 
-function get_fixture_marketsMarketsId($pdo, $identifier) {
-	$stmt = $pdo->prepare("SELECT id FROM markets_map 
-						   WHERE identifier = :identifier");
+function get_markets_maps_MarketsId($pdo, $identifier, $field_type) {
+	$stmt = $pdo->prepare("SELECT markets_id FROM markets_map 
+						   WHERE identifier = :identifier
+						   AND field_type = :field_type");
 	$stmt->bindParam(":identifier", $identifier);
+	$stmt->bindParam(":field_type", $field_type);
 	$stmt->execute();
 	$id = $stmt->fetch(PDO::FETCH_ASSOC);
-	return $id["id"];
+	return $id["markets_id"];
 }
 
 function populate_fixtures_markets($pdo, $fixtures_id, $markets_id) {
@@ -119,16 +125,17 @@ function populate_fixtures_markets($pdo, $fixtures_id, $markets_id) {
 	return $stmt;
 }
 
-/*function update_fixtures_markets($pdo, $fixtures_id, $markets_id, $id) { FALTA
-	$stmt = $pdo->prepare("UPDATE fixtures_markets_odds
-						   SET odd = :odd, date = :date
-						   WHERE fixtures_markets_id = :fixtures_markets_id");
-	$stmt->bindParam(":odd", $odd);
-	$stmt->bindParam(":date", $date);
-	$stmt->bindParam(":fixtures_markets_id", $fixtures_markets_id);
+function update_fixtures_markets($pdo, $fixtures_id, $markets_id, $id) {
+	$stmt = $pdo->prepare("UPDATE fixtures_markets
+						   SET fixtures_id = :fixtures_id, 
+						   markets_id = :markets_id
+						   WHERE id = :id");
+	$stmt->bindParam(":fixtures_id", $fixtures_id);
+	$stmt->bindParam(":markets_id", $markets_id);
+	$stmt->bindParam(":id", $id);
 	$stmt->execute();
 	return $stmt;
-}*/
+}
 
 
 function update_fixtures_markets_odds($pdo, $odd, $date, $fixtures_markets_id) {

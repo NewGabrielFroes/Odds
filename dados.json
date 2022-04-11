@@ -1,0 +1,167 @@
+[
+   {
+    "id": "25047949",
+    "name": "Millonarios FC - Deportivo La Equidad",
+    "date": "2022-04-09T01:00:00Z",
+    "Url": "https://br.betano.com/match-odds/Millonarios-FC-Deportivo-La-Equidad/25047949",
+    "zerorake": false,
+    "teams": [
+      {
+        "id": "114858",
+        "name": "Millonarios FC"
+      },
+      {
+        "id": "108648",
+        "name": "Deportivo La Equidad"
+      }
+    ],
+    "leaguename": "Categoría Primera A",
+    "leagueid": "16940",
+    "regionname": "Colômbia",
+    "regionid": "11333",
+    "market": [
+      {
+        "id": "1155669020",
+        "type": "MRES",
+        "name": "Resultado Final",
+        "selections": [
+          {
+            "id": "2521727829",
+            "name": "1",
+            "price": 5.3
+          },
+          {
+            "id": "2521727830",
+            "name": "X",
+            "price": 3.25
+          },
+          {
+            "id": "2521727831",
+            "name": "2",
+            "price": 5.6
+          }
+        ]
+      },
+      {
+        "id": "1157170018",
+        "type": "HCTG",
+        "name": "Total de Gols Mais/Menos",
+        "selections": [
+          {
+            "id": "2527342395",
+            "name": "Mais de 0.5",
+            "price": 1.12
+          },
+          {
+            "id": "2527342396",
+            "name": "Menos de 0.5",
+            "price": 6.3
+          }
+        ]
+      },
+      {
+        "id": "1157170016",
+        "type": "HCTG",
+        "name": "Total de Gols Mais/Menos",
+        "selections": [
+          {
+            "id": "2527342391",
+            "name": "Mais de 1.5",
+            "price": 1.53
+          },
+          {
+            "id": "2527342392",
+            "name": "Menos de 1.5",
+            "price": 2.52
+          }
+        ]
+      },
+      {
+        "id": "1157170015",
+        "type": "HCTG",
+        "name": "Total de Gols Mais/Menos",
+        "selections": [
+          {
+            "id": "2527342389",
+            "name": "Mais de 2.5",
+            "price": 2.57
+          },
+          {
+            "id": "2527342390",
+            "name": "Menos de 2.5",
+            "price": 1.52
+          }
+        ]
+      },
+      {
+        "id": "1157170017",
+        "type": "HCTG",
+        "name": "Total de Gols Mais/Menos",
+        "selections": [
+          {
+            "id": "2527342393",
+            "name": "Mais de 3.5",
+            "price": 4.85
+          },
+          {
+            "id": "2527342394",
+            "name": "Menos de 3.5",
+            "price": 1.18
+          }
+        ]
+      },
+      {
+        "id": "1157170019",
+        "type": "HCTG",
+        "name": "Total de Gols Mais/Menos",
+        "selections": [
+          {
+            "id": "2527342397",
+            "name": "Mais de 4.5",
+            "price": 9.5
+          },
+          {
+            "id": "2527342398",
+            "name": "Menos de 4.5",
+            "price": 1.06
+          }
+        ]
+      },
+      {
+        "id": "1157170020",
+        "type": "HCTG",
+        "name": "Total de Gols Mais/Menos",
+        "selections": [
+          {
+            "id": "2527342399",
+            "name": "Mais de 5.5",
+            "price": 15
+          },
+          {
+            "id": "2527342400",
+            "name": "Menos de 5.5",
+            "price": 1.015
+          }
+        ]
+      },
+      {
+        "id": "1155669029",
+        "type": "BTSC",
+        "name": "Ambas equipes Marcam",
+        "selections": [
+          {
+            "id": "2521727856",
+            "name": "Sim",
+            "price": 2.3
+          },
+          {
+            "id": "2521727857",
+            "name": "Não",
+            "price": 1.57
+          }
+        ]
+      }
+    ],
+    "sport": "FOOT"
+  }
+]
