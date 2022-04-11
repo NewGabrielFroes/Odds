@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Tempo de geração: 10/04/2022 às 00:32
+-- Tempo de geração: 11/04/2022 às 20:17
 -- Versão do servidor: 10.4.22-MariaDB
 -- Versão do PHP: 8.1.2
 
@@ -37,10 +37,9 @@ CREATE TABLE `competitions` (
 --
 
 INSERT INTO `competitions` (`id`, `name`) VALUES
-(1, 'Qualificação Campeonato do Mundo - Europa (F)'),
+(1, 'Copa Libertadores'),
 (2, 'Categoría Primera A'),
-(3, 'Primera Nacional B'),
-(4, 'Brasileirão - Série A');
+(3, 'Primera Nacional B');
 
 -- --------------------------------------------------------
 
@@ -60,10 +59,9 @@ CREATE TABLE `competitions_map` (
 --
 
 INSERT INTO `competitions_map` (`id`, `identifier`, `field_type`, `competitions_id`) VALUES
-(1, '197345', 'Betano', 1),
+(1, '16775', 'Betano', 1),
 (2, '16940', 'Betano', 2),
-(3, '17244', 'Betano', 3),
-(4, '10016', 'Betano', 4);
+(3, '17244', 'Betano', 3);
 
 -- --------------------------------------------------------
 
@@ -84,8 +82,7 @@ CREATE TABLE `competitions_seasons` (
 INSERT INTO `competitions_seasons` (`id`, `season`, `competition_id`) VALUES
 (1, '2022', 1),
 (2, '2022', 2),
-(3, '2022', 3),
-(4, '2022', 4);
+(3, '2022', 3);
 
 -- --------------------------------------------------------
 
@@ -106,10 +103,9 @@ CREATE TABLE `fixtures` (
 --
 
 INSERT INTO `fixtures` (`id`, `date`, `home_team`, `away_team`, `competitions_seasons_id`) VALUES
-(1, '2022-04-07 13:00:00', 1, 2, 1),
-(2, '2022-04-09 01:00:00', 3, 4, 2),
-(4, '2022-04-10 18:30:00', 5, 6, 3),
-(5, '2022-04-10 00:00:00', 7, 8, 4);
+(1, '2022-04-14 00:00:00', 1, 2, 1),
+(2, '2022-04-14 00:00:00', 3, 4, 1),
+(3, '2022-04-14 00:00:00', 5, 6, 1);
 
 -- --------------------------------------------------------
 
@@ -123,6 +119,67 @@ CREATE TABLE `fixtures_markets` (
   `markets_id` bigint(90) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Despejando dados para a tabela `fixtures_markets`
+--
+
+INSERT INTO `fixtures_markets` (`id`, `fixtures_id`, `markets_id`) VALUES
+(1, 1, 1),
+(2, 1, 2),
+(3, 1, 3),
+(4, 1, 4),
+(5, 1, 5),
+(6, 1, 6),
+(7, 1, 7),
+(8, 1, 8),
+(9, 1, 9),
+(10, 1, 10),
+(11, 1, 11),
+(12, 1, 12),
+(13, 1, 13),
+(14, 1, 14),
+(15, 1, 15),
+(16, 1, 16),
+(17, 1, 17),
+(18, 1, 18),
+(19, 1, 19),
+(20, 2, 1),
+(21, 2, 2),
+(22, 2, 3),
+(23, 2, 4),
+(24, 2, 5),
+(25, 2, 6),
+(26, 2, 7),
+(27, 2, 8),
+(28, 2, 9),
+(29, 2, 10),
+(30, 2, 11),
+(31, 2, 12),
+(32, 2, 13),
+(33, 2, 14),
+(34, 2, 15),
+(35, 2, 18),
+(36, 2, 19),
+(37, 3, 1),
+(38, 3, 2),
+(39, 3, 3),
+(40, 3, 4),
+(41, 3, 5),
+(42, 3, 6),
+(43, 3, 7),
+(44, 3, 8),
+(45, 3, 9),
+(46, 3, 10),
+(47, 3, 11),
+(48, 3, 12),
+(49, 3, 13),
+(50, 3, 14),
+(51, 3, 15),
+(52, 3, 16),
+(53, 3, 17),
+(54, 3, 18),
+(55, 3, 19);
+
 -- --------------------------------------------------------
 
 --
@@ -131,10 +188,71 @@ CREATE TABLE `fixtures_markets` (
 
 CREATE TABLE `fixtures_markets_odds` (
   `id` bigint(90) NOT NULL,
-  `odd` decimal(10,2) NOT NULL,
+  `odd` float NOT NULL,
   `date` datetime NOT NULL,
   `fixtures_markets_id` bigint(90) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Despejando dados para a tabela `fixtures_markets_odds`
+--
+
+INSERT INTO `fixtures_markets_odds` (`id`, `odd`, `date`, `fixtures_markets_id`) VALUES
+(1, 1.57, '2022-04-11 18:13:50', 1),
+(2, 3.6, '2022-04-11 18:13:50', 2),
+(3, 7.2, '2022-04-11 18:13:50', 3),
+(4, 1.07, '2022-04-11 18:13:50', 4),
+(5, 8.5, '2022-04-11 18:13:50', 5),
+(6, 1.3, '2022-04-11 18:13:50', 6),
+(7, 3.55, '2022-04-11 18:13:50', 7),
+(8, 1.9, '2022-04-11 18:13:50', 8),
+(9, 1.91, '2022-04-11 18:13:50', 9),
+(10, 3.15, '2022-04-11 18:13:50', 10),
+(11, 1.37, '2022-04-11 18:13:50', 11),
+(12, 5.8, '2022-04-11 18:13:50', 12),
+(13, 1.14, '2022-04-11 18:13:50', 13),
+(14, 10.25, '2022-04-11 18:13:50', 14),
+(15, 1.05, '2022-04-11 18:13:50', 15),
+(16, 15.5, '2022-04-11 18:13:50', 16),
+(17, 1.015, '2022-04-11 18:13:50', 17),
+(18, 1.83, '2022-04-11 18:13:50', 18),
+(19, 1.9, '2022-04-11 18:13:50', 19),
+(20, 2.52, '2022-04-11 18:13:52', 20),
+(21, 3.2, '2022-04-11 18:13:52', 21),
+(22, 2.92, '2022-04-11 18:13:52', 22),
+(23, 1.11, '2022-04-11 18:13:52', 23),
+(24, 6.7, '2022-04-11 18:13:52', 24),
+(25, 1.5, '2022-04-11 18:13:52', 25),
+(26, 2.6, '2022-04-11 18:13:52', 26),
+(27, 2.47, '2022-04-11 18:13:52', 27),
+(28, 1.55, '2022-04-11 18:13:52', 28),
+(29, 4.7, '2022-04-11 18:13:52', 29),
+(30, 1.19, '2022-04-11 18:13:52', 30),
+(31, 9, '2022-04-11 18:13:52', 31),
+(32, 1.06, '2022-04-11 18:13:52', 32),
+(33, 14.5, '2022-04-11 18:13:52', 33),
+(34, 1.02, '2022-04-11 18:13:52', 34),
+(35, 2.07, '2022-04-11 18:13:52', 35),
+(36, 1.7, '2022-04-11 18:13:52', 36),
+(37, 1.5, '2022-04-11 18:13:53', 37),
+(38, 4.05, '2022-04-11 18:13:53', 38),
+(39, 7.2, '2022-04-11 18:13:53', 39),
+(40, 1.08, '2022-04-11 18:13:53', 40),
+(41, 8, '2022-04-11 18:13:53', 41),
+(42, 1.36, '2022-04-11 18:13:53', 42),
+(43, 3.15, '2022-04-11 18:13:53', 43),
+(44, 2.05, '2022-04-11 18:13:53', 44),
+(45, 1.78, '2022-04-11 18:13:53', 45),
+(46, 3.55, '2022-04-11 18:13:53', 46),
+(47, 1.3, '2022-04-11 18:13:53', 47),
+(48, 6.7, '2022-04-11 18:13:53', 48),
+(49, 1.11, '2022-04-11 18:13:53', 49),
+(50, 11.75, '2022-04-11 18:13:53', 50),
+(51, 1.04, '2022-04-11 18:13:53', 51),
+(52, 16.5, '2022-04-11 18:13:53', 52),
+(53, 1.01, '2022-04-11 18:13:53', 53),
+(54, 2.15, '2022-04-11 18:13:53', 54),
+(55, 1.65, '2022-04-11 18:13:53', 55);
 
 -- --------------------------------------------------------
 
@@ -153,8 +271,8 @@ CREATE TABLE `markets` (
 
 INSERT INTO `markets` (`id`, `name`) VALUES
 (1, 'hometeamwin'),
-(2, 'awayteamwin'),
-(3, 'draw'),
+(2, 'draw'),
+(3, 'awayteamwin'),
 (4, 'Over 0.5 Goals'),
 (5, 'Under 0.5 Goals'),
 (6, 'Over 1.5 Goals'),
@@ -191,24 +309,24 @@ CREATE TABLE `markets_map` (
 
 INSERT INTO `markets_map` (`id`, `identifier`, `field_type`, `markets_id`) VALUES
 (1, 'MRES1', 'Betano', 1),
-(2, 'MRESX', 'Betano', 3),
-(3, 'MRES2', 'Betano', 2),
-(4, 'HCTGOVER0.5', 'Betano', 4),
-(5, 'HCTGUNDER0.5', 'Betano', 5),
-(6, 'HCTGOVER1.5', 'Betano', 6),
-(7, 'HCTGUNDER1.5', 'Betano', 7),
-(8, 'HCTGOVER2.5', 'Betano', 8),
-(9, 'HCTGUNDER2.5', 'Betano', 9),
-(10, 'HCTGOVER3.5', 'Betano', 10),
-(11, 'HCTGUNDER3.5', 'Betano', 11),
-(12, 'HCTGOVER4.5', 'Betano', 12),
-(13, 'HCTGUNDER4.5', 'Betano', 13),
-(14, 'HCTGOVER5.5', 'Betano', 14),
-(15, 'HCTGUNDER5.5', 'Betano', 15),
-(16, 'HCTGOVER6.5', 'Betano', 16),
-(17, 'HCTGUNDER6.5', 'Betano', 17),
-(18, 'BTSCYES', 'Betano', 18),
-(19, 'BTSCNO', 'Betano', 19);
+(2, 'MRESX', 'Betano', 2),
+(3, 'MRES2', 'Betano', 3),
+(4, 'HCTGMais de 0.5', 'Betano', 4),
+(5, 'HCTGMenos de 0.5', 'Betano', 5),
+(6, 'HCTGMais de 1.5', 'Betano', 6),
+(7, 'HCTGMenos de 1.5', 'Betano', 7),
+(8, 'HCTGMais de 2.5', 'Betano', 8),
+(9, 'HCTGMenos de 2.5', 'Betano', 9),
+(10, 'HCTGMais de 3.5', 'Betano', 10),
+(11, 'HCTGMenos de 3.5', 'Betano', 11),
+(12, 'HCTGMais de 4.5', 'Betano', 12),
+(13, 'HCTGMenos de 4.5', 'Betano', 13),
+(14, 'HCTGMais de 5.5', 'Betano', 14),
+(15, 'HCTGMenos de 5.5', 'Betano', 15),
+(16, 'HCTGMais de 6.5', 'Betano', 16),
+(17, 'HCTGMenos de 6.5', 'Betano', 17),
+(18, 'BTSCSim', 'Betano', 18),
+(19, 'BTSCNão', 'Betano', 19);
 
 -- --------------------------------------------------------
 
@@ -226,14 +344,12 @@ CREATE TABLE `teams` (
 --
 
 INSERT INTO `teams` (`id`, `name`) VALUES
-(1, 'Bulgária (F)'),
-(2, 'Turquia (F)'),
-(3, 'Millonarios'),
-(4, 'La Equidad'),
-(5, 'Tristán Suárez'),
-(6, 'Ferro Carril Oeste'),
-(7, 'Palmeiras'),
-(8, 'Ceará');
+(1, 'River Plate'),
+(2, 'Fortaleza'),
+(3, 'Nacional Montevideo'),
+(4, 'Estudiantes de La Plata'),
+(5, 'Atlético-MG'),
+(6, 'América-MG');
 
 -- --------------------------------------------------------
 
@@ -253,14 +369,12 @@ CREATE TABLE `teams_map` (
 --
 
 INSERT INTO `teams_map` (`id`, `identifier`, `field_type`, `teams_id`) VALUES
-(1, '1901536', 'Betano', 1),
-(2, '1891350', 'Betano', 2),
-(3, '114858', 'Betano', 3),
-(4, '108648', 'Betano', 4),
-(5, '117140', 'Betano', 5),
-(6, '110075', 'Betano', 6),
-(7, '108263', 'Betano', 7),
-(8, '1883663', 'Betano', 8);
+(1, '106694', 'Betano', 1),
+(2, '107254', 'Betano', 2),
+(3, '108331', 'Betano', 3),
+(4, '107342', 'Betano', 4),
+(5, '108204', 'Betano', 5),
+(6, '110161', 'Betano', 6);
 
 --
 -- Índices para tabelas despejadas
@@ -344,37 +458,37 @@ ALTER TABLE `teams_map`
 -- AUTO_INCREMENT de tabela `competitions`
 --
 ALTER TABLE `competitions`
-  MODIFY `id` bigint(90) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(90) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `competitions_map`
 --
 ALTER TABLE `competitions_map`
-  MODIFY `id` bigint(90) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(90) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `competitions_seasons`
 --
 ALTER TABLE `competitions_seasons`
-  MODIFY `id` bigint(90) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(90) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `fixtures`
 --
 ALTER TABLE `fixtures`
-  MODIFY `id` bigint(80) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(80) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `fixtures_markets`
 --
 ALTER TABLE `fixtures_markets`
-  MODIFY `id` bigint(90) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(90) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT de tabela `fixtures_markets_odds`
 --
 ALTER TABLE `fixtures_markets_odds`
-  MODIFY `id` bigint(90) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(90) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT de tabela `markets`
@@ -392,13 +506,13 @@ ALTER TABLE `markets_map`
 -- AUTO_INCREMENT de tabela `teams`
 --
 ALTER TABLE `teams`
-  MODIFY `id` bigint(90) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(90) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `teams_map`
 --
 ALTER TABLE `teams_map`
-  MODIFY `id` bigint(90) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(90) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Restrições para tabelas despejadas
@@ -420,9 +534,9 @@ ALTER TABLE `competitions_seasons`
 -- Restrições para tabelas `fixtures`
 --
 ALTER TABLE `fixtures`
-  ADD CONSTRAINT `fk2_fixtures_teamnsmap` FOREIGN KEY (`away_team`) REFERENCES `teams_map` (`id`),
+  ADD CONSTRAINT `fk2_fixtures_teamnsmap` FOREIGN KEY (`away_team`) REFERENCES `teams` (`id`),
   ADD CONSTRAINT `fk_fixtures_competitionsseasons` FOREIGN KEY (`competitions_seasons_id`) REFERENCES `competitions_seasons` (`id`),
-  ADD CONSTRAINT `fk_fixtures_teamnsmap` FOREIGN KEY (`home_team`) REFERENCES `teams_map` (`id`);
+  ADD CONSTRAINT `fk_fixtures_teamnsmap` FOREIGN KEY (`home_team`) REFERENCES `teams` (`id`);
 
 --
 -- Restrições para tabelas `fixtures_markets`
