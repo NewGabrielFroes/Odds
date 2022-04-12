@@ -1,6 +1,5 @@
 <?php
 abstract class Platform {
-	
 	private $pdo;
 	private $field_type;
 
