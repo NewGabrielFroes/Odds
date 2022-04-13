@@ -3,11 +3,9 @@ include("config.php");
 include("Betano.class.php");
 
 $pdo = connect();
-$field_type = "Betano";
-$url = "https://br.betano.com/adserve?type=OddsComparisonFeed&lang=pt&sport=FOOT";
 
-$platform = new Betano($pdo, $field_type);
+$platform = new Betano($pdo);
 
-$json_decoded = $platform->convert_json_to_object($url);
+$json_decoded = $platform->get_json_decoded();
 
 $platform->run_through_json($json_decoded);

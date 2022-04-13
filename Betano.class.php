@@ -1,6 +1,16 @@
 <?php
 include("Platform.class.php");
 class Betano extends Platform {
+	private $field_type = "Betano";
+	private $url = "https://br.betano.com/adserve?type=OddsComparisonFeed&lang=pt&sport=FOOT";
+
+	public function __construct($pdo) {
+		parent::__construct($pdo);
+		$this->set_field_type($this->field_type);
+		$this->set_url($this->url);
+		$this->set_json_decoded($this->convert_json_to_object());
+	} 
+
 	public function run_through_json($decoded) {
 		if($decoded) foreach ($decoded as $match) {
 			$identifier_home_team = $match->teams[0]->id;
@@ -24,7 +34,7 @@ class Betano extends Platform {
 						$identifier = $market->type . $selection->name;
 						$odd = $selection->price;
 						
-						$this->populate($this->get_pdo(), $this->get_field_type(), $identifier, $odd, $fixtures_id);
+						$this->populate_fixtures_markets__fixtures_markets_odds($this->get_pdo(), $this->get_field_type(), $identifier, $odd, $fixtures_id);
 					}
 
 				}
