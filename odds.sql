@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Tempo de geração: 12/04/2022 às 21:40
+-- Tempo de geração: 13/04/2022 às 15:27
 -- Versão do servidor: 10.4.22-MariaDB
 -- Versão do PHP: 8.1.2
 
@@ -37,7 +37,9 @@ CREATE TABLE `competitions` (
 --
 
 INSERT INTO `competitions` (`id`, `name`) VALUES
-(1, 'Copa Libertadores');
+(1, 'Copa Libertadores'),
+(2, 'Categoría Primera A'),
+(3, 'Primera Nacional B');
 
 -- --------------------------------------------------------
 
@@ -58,7 +60,8 @@ CREATE TABLE `competitions_map` (
 
 INSERT INTO `competitions_map` (`id`, `identifier`, `field_type`, `competitions_id`) VALUES
 (1, '16775', 'Betano', 1),
-(2, 'Taça Libertadores', 'Placard', 1);
+(2, 'Taça Libertadores', 'Placard', 1),
+(3, '17244', 'Betano', 3);
 
 -- --------------------------------------------------------
 
@@ -181,31 +184,28 @@ CREATE TABLE `markets_map` (
 --
 
 INSERT INTO `markets_map` (`id`, `identifier`, `field_type`, `markets_id`) VALUES
-(1, 'MR121', 'Betano', 1),
-(2, 'MR12X', 'Betano', 2),
-(3, 'MR122', 'Betano', 3),
-(4, 'MRES1', 'Betano', 1),
-(5, 'MRESX', 'Betano', 2),
-(6, 'MRES2', 'Betano', 3),
-(7, 'HCTGMais de 0.5', 'Betano', 4),
-(8, 'HCTGMenos de 0.5', 'Betano', 5),
-(9, 'HCTGMais de 1.5', 'Betano', 6),
-(10, 'HCTGMenos de 1.5', 'Betano', 7),
-(11, 'HCTGMais de 2.5', 'Betano', 8),
-(12, 'HCTGMenos de 2.5', 'Betano', 9),
-(13, 'HCTGMais de 3.5', 'Betano', 10),
-(14, 'HCTGMenos de 3.5', 'Betano', 11),
-(15, 'HCTGMais de 4.5', 'Betano', 12),
-(16, 'HCTGMenos de 4.5', 'Betano', 13),
-(17, 'HCTGMais de 5.5', 'Betano', 14),
-(18, 'HCTGMenos de 5.5', 'Betano', 15),
-(19, 'HCTGMais de 6.5', 'Betano', 16),
-(20, 'HCTGMenos de 6.5', 'Betano', 17),
-(21, 'BTSCSim', 'Betano', 18),
-(22, 'BTSCNão', 'Betano', 19),
-(23, '1x2{homeTeam}', 'Placard', 1),
-(24, '1x2draw', 'Placard', 2),
-(25, '1x2{awayTeam}', 'Placard', 3);
+(1, 'MRES1', 'Betano', 1),
+(2, 'MRESX', 'Betano', 2),
+(3, 'MRES2', 'Betano', 3),
+(4, 'HCTGMais de 0.5', 'Betano', 4),
+(5, 'HCTGMenos de 0.5', 'Betano', 5),
+(6, 'HCTGMais de 1.5', 'Betano', 6),
+(7, 'HCTGMenos de 1.5', 'Betano', 7),
+(8, 'HCTGMais de 2.5', 'Betano', 8),
+(9, 'HCTGMenos de 2.5', 'Betano', 9),
+(10, 'HCTGMais de 3.5', 'Betano', 10),
+(11, 'HCTGMenos de 3.5', 'Betano', 11),
+(12, 'HCTGMais de 4.5', 'Betano', 12),
+(13, 'HCTGMenos de 4.5', 'Betano', 13),
+(14, 'HCTGMais de 5.5', 'Betano', 14),
+(15, 'HCTGMenos de 5.5', 'Betano', 15),
+(16, 'HCTGMais de 6.5', 'Betano', 16),
+(17, 'HCTGMenos de 6.5', 'Betano', 17),
+(18, 'BTSCSim', 'Betano', 18),
+(19, 'BTSCNão', 'Betano', 19),
+(20, '1x2{homeTeam}', 'Placard', 1),
+(21, '1x2draw', 'Placard', 2),
+(22, '1x2{awayTeam}', 'Placard', 2);
 
 -- --------------------------------------------------------
 
@@ -343,13 +343,13 @@ ALTER TABLE `teams_map`
 -- AUTO_INCREMENT de tabela `competitions`
 --
 ALTER TABLE `competitions`
-  MODIFY `id` bigint(90) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(90) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `competitions_map`
 --
 ALTER TABLE `competitions_map`
-  MODIFY `id` bigint(90) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(90) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `competitions_seasons`
@@ -385,7 +385,7 @@ ALTER TABLE `markets`
 -- AUTO_INCREMENT de tabela `markets_map`
 --
 ALTER TABLE `markets_map`
-  MODIFY `id` bigint(90) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` bigint(90) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT de tabela `teams`
