@@ -103,11 +103,14 @@ abstract class Platform {
 	}
 
 	protected function populate_fixtures_markets__fixtures_markets_odds($pdo, $field_type, $identifier, $odd, $fixtures_id) {
-		$date = gmdate('Y-m-d H:i:s');	
 		$market_id = $this->get_markets_id_by_identifier__field_type($pdo, $identifier, $field_type);
+		if(!$market_id) return;
+		
+		$date = gmdate('Y-m-d H:i:s');	
+
 		$fixtures_markets_id = $this->is_market_in_fixtures_markets($pdo, $fixtures_id, $market_id);
-			
-		if(!$fixtures_markets_id && $market_id) {
+
+		if(!$fixtures_markets_id) {
 			$this->populate_fixtures_markets($pdo, $fixtures_id, $market_id);
 			$this->populate_fixtures_markets_odds($pdo, $odd, $date, $pdo->lastInsertId());
 		}
@@ -129,7 +132,7 @@ abstract class Platform {
 		$query_result = $stmt->fetch(PDO::FETCH_ASSOC);
 
 		$query_result = !$query_result ? $query_result : $query_result["markets_id"];
-
+		
 		return $query_result;
 	}
 
