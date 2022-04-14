@@ -1,0 +1,28 @@
+[
+  {	
+    "_id": "6254549ad7ce2b3fe6470f20",
+    "eventID": "5085251670",
+    "awayOdd": 7.25,
+    "awayTeam": "Fortaleza-Ce",
+    "country": "Internacional Clubes",
+    "createdDate": "2022-04-11T16:17:30.057Z",
+    "drawOdd": 4.25,
+    "eventNodeTypeId": 10,
+    "homeOdd": 1.4,
+    "homeTeam": "River Plate",
+    "lastUpdate": "2022-04-13T13:58:51.936Z",
+    "leagues": "Taça Libertadores",
+    "localizedNames": "River Plate - Fortaleza-Ce",
+    "markets": {
+      "1x2": {
+        "Fortaleza-Ce": 7.25,
+        "River Plate": 1.4,
+        "draw": 4.25
+      }
+    },
+    "parentNodeId": "1523258425",
+    "sport": "Futebol",
+    "startDate": "2022-04-14T00:00:00.000Z",
+    "url": "https://apostas.placard.pt/sports/soccer/events/5085251670"
+  }
+]
