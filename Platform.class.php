@@ -5,9 +5,11 @@ abstract class Platform {
 	private $url;
 	private $json_decoded;
 
+
 	public function __construct($pdo) {
 		$this->set_pdo($pdo);
 	}
+
 
 	protected function get_pdo() {
 		return $this->pdo;
@@ -16,6 +18,7 @@ abstract class Platform {
 	private function set_pdo($pdo) {
 		$this->pdo = $pdo;
 	}
+
 
 	protected function get_field_type() {
 		return $this->field_type;
@@ -41,6 +44,7 @@ abstract class Platform {
 		$this->json_decoded = $json_decoded;
 	}
 
+
 	private function connect_to_api($url) {
 		$curl = curl_init();
 
@@ -55,19 +59,21 @@ abstract class Platform {
 		curl_close($curl);
 
 		if($err = curl_error($curl)) {
-			throw new Exception("Invalid URL");
+			throw new Exception('Invalid URL');
 		}
 		else {
 			return $response;
 		}
 	}
 
+
 	protected function convert_json_to_object() {
 		return json_decode($this->connect_to_api($this->get_url()));
 	}
 
-	protected function get_team_id_by_field_type__identifier($pdo, $field_type, $identifier) {
-		$stmt = $pdo->prepare("SELECT teams_id FROM teams_map 
+
+	protected function get_team_id_by_field_type__identifier($field_type, $identifier) {
+		$stmt = $this->pdo->prepare("SELECT teams_id FROM teams_map 
 							   WHERE field_type = :field_type 
 							   AND identifier = :identifier");
 
@@ -83,8 +89,8 @@ abstract class Platform {
 		return $query_result;
 	}
 
-	protected function get_fixture_id_by_home_team__away_team__datetime($pdo, $id_home_team, $id_away_team, $match_date) {
-		$stmt = $pdo->prepare("SELECT id FROM fixtures 
+	protected function get_fixture_id_by_home_team__away_team__datetime($id_home_team, $id_away_team, $match_date) {
+		$stmt = $this->pdo->prepare("SELECT id FROM fixtures 
 							   WHERE home_team = :id_home_team
 							   AND away_team = :id_away_team
 							   AND date = :match_date");
@@ -102,25 +108,8 @@ abstract class Platform {
 		return $query_result;
 	}
 
-	protected function populate_fixtures_markets__fixtures_markets_odds($pdo, $field_type, $identifier, $odd, $fixtures_id) {
-		$market_id = $this->get_markets_id_by_identifier__field_type($pdo, $identifier, $field_type);
-		if(!$market_id) return;
-		
-		$date = gmdate('Y-m-d H:i:s');	
-
-		$fixtures_markets_id = $this->is_market_in_fixtures_markets($pdo, $fixtures_id, $market_id);
-
-		if(!$fixtures_markets_id) {
-			$this->populate_fixtures_markets($pdo, $fixtures_id, $market_id);
-			$this->populate_fixtures_markets_odds($pdo, $odd, $date, $pdo->lastInsertId());
-		}
-		else {
-			$this->populate_fixtures_markets_odds($pdo, $odd, $date, $fixtures_markets_id);
-		}
-	}
-
-	protected function get_markets_id_by_identifier__field_type($pdo, $identifier, $field_type) {
-		$stmt = $pdo->prepare("SELECT markets_id FROM markets_map 
+	protected function get_markets_id_by_identifier__field_type($identifier, $field_type) {
+		$stmt = $this->pdo->prepare("SELECT markets_id FROM markets_map 
 							   WHERE identifier = :identifier
 							   AND field_type = :field_type");
 
@@ -136,8 +125,8 @@ abstract class Platform {
 		return $query_result;
 	}
 
-	protected function is_market_in_fixtures_markets($pdo, $fixtures_id, $markets_id) {
-		$stmt = $pdo->prepare("SELECT id FROM fixtures_markets
+	protected function get_id_in_fixtures_markets($fixtures_id, $markets_id) {
+		$stmt = $this->pdo->prepare("SELECT id FROM fixtures_markets
 							   WHERE fixtures_id = :fixtures_id
 							   AND markets_id = :markets_id");
 
@@ -153,8 +142,25 @@ abstract class Platform {
 		return $query_result;
 	}
 
-	protected function populate_fixtures_markets($pdo, $fixtures_id, $markets_id) {
-		$stmt = $pdo->prepare("INSERT INTO fixtures_markets(fixtures_id, markets_id)
+
+	protected function populate_fixtures_markets__fixtures_markets_odds($field_type, $identifier, $odd, $fixtures_id) {
+		$market_id = $this->get_markets_id_by_identifier__field_type($identifier, $field_type);
+		if(!$market_id) return;
+		
+		$date = gmdate('Y-m-d H:i:s');	
+
+		$fixtures_markets_id = $this->get_id_in_fixtures_markets($fixtures_id, $market_id);
+
+		if(!$fixtures_markets_id) {
+			$this->populate_fixtures_markets($fixtures_id, $market_id);
+			$fixtures_markets_id = $this->pdo->lastInsertId();
+		}
+		
+		$this->populate_fixtures_markets_odds($odd, $date, $fixtures_markets_id);
+	}
+
+	protected function populate_fixtures_markets($fixtures_id, $markets_id) {
+		$stmt = $this->pdo->prepare("INSERT INTO fixtures_markets(fixtures_id, markets_id)
 							   VALUES (:fixtures_id, :markets_id)");
 
 		$stmt->bindParam(":fixtures_id", $fixtures_id);
@@ -165,8 +171,8 @@ abstract class Platform {
 		return $stmt;
 	}
 
-	protected function populate_fixtures_markets_odds($pdo, $odd, $date, $fixtures_markets_id) {
-		$stmt = $pdo->prepare("INSERT INTO fixtures_markets_odds(odd, date,fixtures_markets_id)
+	protected function populate_fixtures_markets_odds($odd, $date, $fixtures_markets_id) {
+		$stmt = $this->pdo->prepare("INSERT INTO fixtures_markets_odds(odd, date,fixtures_markets_id)
 							   VALUES (:odd,:date,:fixtures_markets_id)");
 
 		$stmt->bindParam(":odd", $odd);
